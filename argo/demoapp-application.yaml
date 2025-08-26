@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demoapp
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/tonutilisateur/ton-repo-git.git'  # Remplace par ton URL
+    targetRevision: HEAD       # Branche ou commit à suivre
+    path: infra/k8s/demoapp    # Chemin vers les manifests de l’app dans ton repo
+  destination:
+    server: 'https://kubernetes.default.svc'  # Cluster cible (le cluster actuel)
+    namespace: demoapp         # Namespace cible pour le déploiement
+  syncPolicy:
+    automated:
+      prune: true             # Supprime les ressources obsolètes
+      selfHeal: true          # Corrige automatiquement l’écart d’état
