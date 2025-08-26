@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sonarqube-monitoring-passcode
+  namespace: sonarqube
+type: Opaque
+stringData:
+  passcode: "monSuperPasscode123"
