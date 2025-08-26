@@ -1,21 +1,39 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: demoapp
-  namespace: demoapp
+  name: python-demoapp
+  namespace: demo
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: demoapp
+      app: python-demoapp
   template:
     metadata:
       labels:
-        app: demoapp
+        app: python-demoapp
     spec:
       containers:
-      - name: demoapp
-        image: nginx:latest
-        ports:
-        - containerPort: 80
-
+        - name: web
+          image: docker.io/yasdevsec/python-demoapp:v2
+          ports:
+            - containerPort: 5000
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /info
+              port: 5000
+            initialDelaySeconds: 15
+            periodSeconds: 10
