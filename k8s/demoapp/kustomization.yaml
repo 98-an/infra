@@ -8,4 +8,4 @@ resources:
   - hpa.yaml
 images:
   - name: docker.io/yasdevsec/python-demoapp
-    newTag: v2
+    newTag: v3
