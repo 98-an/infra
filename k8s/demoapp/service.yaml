@@ -1,14 +1,18 @@
-apiVersion: v1
-kind: Service
+apiVersion: argoproj.io/v1alpha1
+kind: Application
 metadata:
-  name: demoapp-service
-  namespace: demoapp
+  name: demoapp
+  namespace: argocd
 spec:
-  selector:
-    app: demoapp
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
-  type: ClusterIP
-
+  project: default
+  source:
+    repoURL: 'https://github.com/98-an/infra.git'
+    targetRevision: main
+    path: k8s/demoapp
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: demoapp
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
